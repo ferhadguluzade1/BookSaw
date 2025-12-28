@@ -1,0 +1,68 @@
+﻿@model Book
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Add Book</h1>
+    <p class="mb-4">Fill the form below to add a new book to the catalog.</p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Add Book</h6>
+            <a asp-area="Admin" asp-controller="Book" asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
+        </div>
+        <div class="card-body">
+            <form asp-area="Admin" asp-controller="Book" asp-action="Edit" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="ImageUrl">Cover Image</label>
+                        <a href="c:\users\acer\desktop\code academy - tasks and others\mvc\booksaw\areas\admin\views\book\create.cshtml">c:\users\acer\desktop\code academy - tasks and others\mvc\booksaw\areas\admin\views\book\create.cshtml</a>         <input asp-for="ImageUrl" type="text" placeholder="Url-yapisdir" />
+                        <small class="form-text text-muted">Accepted: .jpg, .png. (Upload handled on server — saved filename should populate ImageUrl.)</small>
+                    </div>
+
+                    <div class="form-group col-md-8">
+                        <label asp-for="Title">Title</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Author">Author</label>
+                        <input asp-for="Author" class="form-control" />
+                        <span asp-validation-for="Author" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <a asp-area="Admin" asp-controller="Book" asp-action="Index" class="btn btn-light mr-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+<!-- End of Main Content -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
