@@ -12,6 +12,7 @@
     <Folder Include="Areas\Admin\Views\Product\" />
     <Folder Include="Utilities\ImageUpload\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="wwwroot\Upload\Book\" />
   </ItemGroup>
 
   <ItemGroup>

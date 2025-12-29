@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BookSaw.Models;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
+using BookSaw.Areas.Admin.ViewModels.Book;
 
 namespace BookSaw.Areas.Admin.Controllers
 {
@@ -10,10 +11,11 @@ namespace BookSaw.Areas.Admin.Controllers
     public class BookController : Controller
     {
         private readonly BookSawDBContext _context;
-
-        public BookController(BookSawDBContext context)
+        private readonly IWebHostEnvironment _env;
+        public BookController(BookSawDBContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -36,12 +38,40 @@ namespace BookSaw.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Book book)
+        public async Task<IActionResult> Create(CreateViewModel model)
         {
-            List<Book>? books = await _context.Books.Include(x=>x.Images).ToListAsync();
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            Book book = new Book()
+            {
+                Title = model.Title,
+                Author = model.Author,
+                DiscountRate = model.DiscountRate,
+                ISBN = model.ISBN,
+                Description = model.Description,
+                Pages = model.Pages,
+                Publisher = model.Publisher,
+                Language = model.Language,
+                Price = model.Price,
+                Categories = _context.Categories.Where(c => model.CategoryIds.Contains(c.Id)).ToList()
+            };
+
+            foreach ( var img in model.Images)
+            {
+                string fileName = Guid.NewGuid() + "_" + img.FileName;
+                string path = Path.Combine(_env.WebRootPath, "Upload", "Book");
+                string fullPath = Path.Combine(path, fileName);
+                await using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await img.CopyToAsync(stream);
+                }
+                book.Images?.Add(new Image()
+                {
+                    Path=fileName
+                });
+               
+            }
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
-
             return RedirectToAction("Index");
         }
         [HttpPost]

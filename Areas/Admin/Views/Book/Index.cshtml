@@ -18,7 +18,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-            <a asp-area="Admin" asp-controller="Book" asp-action="Create" class="btn btn-primary">Add Book</a>
+            <a asp-area="Admin" asp-controller="Book" asp-action="Create" class="btn btn-primary">Create Product</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -33,6 +33,7 @@
                             <th>Price</th>
                             <th>Discount Rate</th>
                             <th>Description</th>
+                            <th>Category</th>
                             <th>ISBN</th>
                             <th>Publisher</th>
                             <th>Language</th>
@@ -44,36 +45,45 @@
                     </thead>
 
                     <tbody>
-                    @foreach (var book in Model)
+                        @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>@counter</td>
-                                <td>@book.Id</td>
-                                <td><img src="~/images/@book.ImageUrl" alt="Alternate Text" /></td>
-                                <td>@book.Title</td>
-                                <td>@book.Author</td>
-                                <td>@book.Price</td>
-                                <td>@book.Description</td>
-                                <td>@book.Publisher</td>
-                                <td>@book.Language</td>
-                                <td>@book.Pages</td>
-                                <td>@book.ISBN</td>
-                                <td>
-                                    <form asp-area="Admin" asp-controller="Book" asp-action="post" asp-route-id="@book.Id" class="btn btn-warning">
-                                        <button type="submit" class="btn btn-warning">Edit</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form asp-area="Admin" asp-controller="Book" asp-action="post" asp-route-id="@book.Id" class="btn btn-danger">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@item.Id</td>
+                                    <td><img src="~/images/@item.ImageUrl" alt="Alternate Text" /></td>
+                                    <td>@item.Title</td>
+                                    <td>
+                                        @item.Author
+                                    </td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Description</td>
+                                    <td>
+                                        @item.Publisher
+                                    </td>
+                                    <td>
+                                        @item.Language
+                                    </td>
+                                    <td>
+                                        @item.Pages
+                                    </td>
+                                    <td>
+                                        @item.ISBN
+                                    </td>
+                                    <td>
+                                        <form asp-area="Admin" asp-controller="Book" asp-action="post" asp-route-id="@item.Id" class="btn btn-warning">
+                                            <button type="submit" class="btn btn-warning">Edit</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form asp-area="Admin" asp-controller="Book" asp-action="post" asp-route-id="@item.Id" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
 
-                            </tr>
-                            counter++;
+                                </tr>
+                                counter++;
                         }
 
-                     
                     </tbody>
                 </table>
             </div>
