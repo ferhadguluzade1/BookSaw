@@ -8,28 +8,29 @@ using BookSaw.Areas.Admin.ViewModels.Book;
 namespace BookSaw.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BookController : Controller
+    public class BookController(BookSawDBContext context, IWebHostEnvironment env) : Controller
     {
-        private readonly BookSawDBContext _context;
-        private readonly IWebHostEnvironment _env;
-        public BookController(BookSawDBContext context, IWebHostEnvironment env)
+        private readonly BookSawDBContext _context = context;
+        private readonly IWebHostEnvironment _env = env;
+
+        public async Task<IActionResult> Index()
         {
-            _context = context;
-            _env = env;
+            var books = await _context.Books.Include(x => x.Images).Include(x => x.Categories).ToListAsync();
+            return View(books);
         }
 
-        public IActionResult Index()
-        {
-            var books = _context.Books.ToList();
+        //public IActionResult Index()
+        //{
+        //    var books = _context.Books.ToList();
 
-            if (books != null)
-            {
-                return View(books);
-            }
+        //    if (books != null)
+        //    {
+        //        return View(books);
+        //    }
 
-            return View("Null data gonderildi - xeta bas verdi!");
+        //    return View("Null data gonderildi - xeta bas verdi!");
             
-        }
+        //}
 
         public async Task<IActionResult> Create()
         {
@@ -60,10 +61,12 @@ namespace BookSaw.Areas.Admin.Controllers
                 string fileName = Guid.NewGuid() + "_" + img.FileName;
                 string path = Path.Combine(_env.WebRootPath, "Upload", "Book");
                 string fullPath = Path.Combine(path, fileName);
+                
                 await using (FileStream stream = new FileStream(fullPath, FileMode.Create))
                 {
                     await img.CopyToAsync(stream);
                 }
+                
                 book.Images?.Add(new Image()
                 {
                     Path=fileName

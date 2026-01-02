@@ -7,7 +7,7 @@ namespace BookSaw.Areas.Admin.ViewModels.Book
     {
             public string ImageUrl { get; set; }
 
-            public string Title { get; set; }
+            public required string Title { get; set; }
             
             public string Author { get; set; }
            
@@ -17,7 +17,7 @@ namespace BookSaw.Areas.Admin.ViewModels.Book
             public decimal DiscountRate { get; set; }
          
             public string ISBN { get; set; }
-            public string Publisher { get; set; }
+        public string Publisher { get; set; }
             public string Language { get; set; }
        
             public int Pages { get; set; }

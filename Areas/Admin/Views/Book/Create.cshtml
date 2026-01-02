@@ -14,7 +14,7 @@
             <a asp-area="Admin" asp-controller="Book" asp-action="Index" class="btn btn-secondary btn-sm">Back to List</a>
         </div>
         <div class="card-body">
-            <form asp-action="Create" asp-area="Admin" asp-controller="Book" asp-action="Create" method="post" enctype="multipart/form-data">
+            <form asp-action="Create" asp-area="Admin" asp-controller="Book" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
 
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -120,7 +120,6 @@
 
 </div>
 <!-- /.container-fluid -->
-</div>
 <!-- End of Main Content -->
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

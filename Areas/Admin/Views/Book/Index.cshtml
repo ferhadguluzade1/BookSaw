@@ -1,25 +1,25 @@
 ﻿@using BookSaw.Models;
 @model List<Book>
+
 @{
     int counter = 1;
 }
-<!-- Begin Page Content -->
+
 <div class="container-fluid">
 
-    <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Tables</h1>
     <p class="mb-4">
         DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank"
-                                                                   href="https://datatables.net">official DataTables documentation</a>.
+        For more information about DataTables, please visit the
+        <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.
     </p>
 
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             <a asp-area="Admin" asp-controller="Book" asp-action="Create" class="btn btn-primary">Create Product</a>
         </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -47,49 +47,70 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                                <tr>
-                                    <td>@counter</td>
-                                    <td>@item.Id</td>
-                                    <td><img src="~/images/@item.ImageUrl" alt="Alternate Text" /></td>
-                                    <td>@item.Title</td>
-                                    <td>
-                                        @item.Author
-                                    </td>
-                                    <td>@item.Price</td>
-                                    <td>@item.Description</td>
-                                    <td>
-                                        @item.Publisher
-                                    </td>
-                                    <td>
-                                        @item.Language
-                                    </td>
-                                    <td>
-                                        @item.Pages
-                                    </td>
-                                    <td>
-                                        @item.ISBN
-                                    </td>
-                                    <td>
-                                        <form asp-area="Admin" asp-controller="Book" asp-action="post" asp-route-id="@item.Id" class="btn btn-warning">
-                                            <button type="submit" class="btn btn-warning">Edit</button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form asp-area="Admin" asp-controller="Book" asp-action="post" asp-route-id="@item.Id" class="btn btn-danger">
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </td>
+                            <tr>
+                                <td>@counter</td>
+                                <td>@item.Id</td>
 
-                                </tr>
-                                counter++;
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="~/Upload/Book/@item.ImageUrl" alt="Image" style="width:60px;height:auto;" />
+                                    }
+                                    else
+                                    {
+                                        <span>No image</span>
+                                    }
+                                </td>
+
+                                <td>@item.Title</td>
+
+                                <td>@item.Author</td>
+
+                                <td>@item.Price</td>
+
+                                <td>@item.DiscountRate</td>
+
+                                <td>@item.Description</td>
+
+                                <td>
+                                    @if (item.Categories != null && item.Categories.Count > 0)
+                                    {
+                                        @item.Categories[0].Name
+                                    }
+                                    else
+                                    {
+                                        <span>No category</span>
+                                    }
+                                </td>
+
+                                <td>@item.ISBN</td>
+
+                                <td>@item.Publisher</td>
+
+                                <td>@item.Language</td>
+
+                                <td>@item.Pages</td>
+
+                                <td>@item.IsDeleted</td>
+
+                                <td>
+                                    <a asp-area="Admin" asp-controller="Book" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                                </td>
+
+                                <td>
+                                    <form asp-area="Admin" asp-controller="Book" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            counter++;
                         }
-
                     </tbody>
+
                 </table>
             </div>
         </div>
     </div>
 
 </div>
-<!-- /.container-fluid -->
-<!-- End of Main Content -->
